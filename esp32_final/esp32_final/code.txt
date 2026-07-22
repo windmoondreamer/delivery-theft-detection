@@ -1,0 +1,13 @@
+load data.mat
+%soundsc(music,fs)
+spectrogram(music,hanning(2048),512,[],fs)
+lpf1 = fir1(100,4000/(fs/2));   % LPF for fc = 4000Hz with 101 length
+out1 = filter(lpf1,1,music);       % Perform filtering on out1
+modulator = (-1).^(0:1:(length(music)-1))';   
+inter = music.*modulator;           % Frequency shift by fs/2
+out2 = filter(lpf1,1,inter);       % Perform filtering on out2
+%soundsc(out1,fs)
+%soundsc(out2,fs)
+spectrogram(out1,hanning(2048),512,[],fs)
+spectrogram(out2,hanning(2048),512,[],fs)
+
